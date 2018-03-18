@@ -4,8 +4,17 @@
 	Serial:
 	USB  UART: "/dev/ttyUSB0"
 
-	*Moves the servo to a selected position at the desired speed
-		UMX.moveSpeed(ID, 0->4095, 0->1023): 0->360 degrees
+	*Moves the servo to the selected position (in bits) at variable speed
+	Position (0 to 4095) moves counter-clockwise
+		UMX.moveSpeedDeg(ID, Position, Speed):
+		@ID - ID of the servo
+		@Position - bits from 0 to 4095
+		@Speed - speed to move from 0 to 1020 or can use the following constants:
+				FULL_SPEED = 1020
+				TRIQUARTER = 756
+				HALF_SPEED = 512
+				QUARTER_SPEED = 256
+				STOP = 0
 */
 
 #include<iostream>
@@ -35,13 +44,13 @@ int main()
 		usleep(2*SEC);
 		control.moveSpeed(ID, 3072, 256);
 		usleep(2*SEC);
-		control.moveSpeed(ID, 4095, 768);
+		control.moveSpeed(ID, 4095, TRIQUARTER_SPEED);
 		usleep(2*SEC);
-		control.moveSpeed(ID, 3072, 256);
+		control.moveSpeed(ID, 3072, QUARTER_SPEED);
 		usleep(2*SEC);
 		control.moveSpeed(ID, 2048, 50);
 		usleep(2*SEC);
-		control.moveSpeed(ID, 1024, 512);
+		control.moveSpeed(ID, 1024, HALF_SPEED);
 		usleep(2*SEC);
 
     }
