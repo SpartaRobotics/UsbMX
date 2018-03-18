@@ -1,4 +1,4 @@
-# build an executable for JetsonMX28
+# build an executable for UsbMX
 
 CC = g++
 CFLAGS = -g -Wall -I../../include
@@ -7,33 +7,28 @@ HDIR = ../../include
 SDIR = ../../src
 ODIR = ../../src/obj
 
-LMX28 = JetsonMX28
-LGPIO = jetsonGPIO
-
+UMX = UsbMX
 TARGET = wheel
 
 all: $(TARGET)
 
-$(TARGET): $(TARGET).o $(LMX28).o $(LGPIO).o
-	$(CC) $(CFLAGS) $< $(ODIR)/$(LMX28).o $(ODIR)/$(LGPIO).o -o $@
+$(TARGET): $(TARGET).o $(UMX).o
+	$(CC) $(CFLAGS) $< $(ODIR)/$(UMX).o -o $@
 		
 $(TARGET).o: $(TARGET).cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 	
-$(LMX28).o: $(SDIR)/$(LMX28).cpp $(HDIR)/$(LMX28).h $(HDIR)/$(LGPIO).h
-	$(CC) $(CFLAGS) -c $< -o $(ODIR)/$@
-
-$(LGPIO).o: $(SDIR)/$(LGPIO).c	$(HDIR)/$(LGPIO).h
+$(UMX).o: $(SDIR)/$(UMX).cpp $(HDIR)/$(UMX).h
 	$(CC) $(CFLAGS) -c $< -o $(ODIR)/$@
 
 
 target: $(TARGET)
 
-$(TARGET): $(TARGET).o $(LMX28).o $(LGPIO).o
-	$(CC) $(CFLAGS) $< $(ODIR)/$(LMX28).o $(ODIR)/$(LGPIO).o -o $@
+$(TARGET): $(TARGET).o $(UMX).o
+	$(CC) $(CFLAGS) $< $(ODIR)/$(UMX).o -o $@
 
 clean:
 	$(RM) -f core *.o $(TARGET)
 
 cleanall:
-		$(RM) -f core *.o $(ODIR)/*.o $(TARGET) $(SDIR)/*.cpp~ *.cpp~ $(HDIR)/*.h~
+		$(RM) -f core *.o $(ODIR)/*.o $(TARGET) $(SDIR)/*.cpp~ *.cpp~ $(HDIR)/*.h~ 
